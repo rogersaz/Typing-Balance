@@ -19,6 +19,15 @@ function App() {
   const [shiftPressed, setShiftPressed] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
+  // Update document title based on game state
+  useEffect(() => {
+    if (gameActive) {
+      document.title = `Time: ${timeLeft}s | Score: ${score} - Typing Balance`;
+    } else {
+      document.title = 'Typing Balance - Improve Your Typing Skills';
+    }
+  }, [gameActive, timeLeft, score]);
+
   const fetchHighScores = async () => {
     const { data, error } = await supabase
       .from('scores')
@@ -144,7 +153,7 @@ function App() {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-2">
             <Keyboard className="w-8 h-8" />
-            Typing Game
+            Typing Balance
           </h1>
           <p className="text-lg opacity-80">Practice typing with different challenges!</p>
         </div>
