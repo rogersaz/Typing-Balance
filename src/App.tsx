@@ -4,6 +4,7 @@ import { supabase } from './utils/supabase';
 import { HighScores } from './components/HighScores';
 import { GameInstructions } from './components/GameInstructions';
 import { LevelSelector } from './components/LevelSelector';
+import { GameAudio } from './components/GameAudio';
 import { GAME_LEVELS } from './utils/gameConfig';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const [isError, setIsError] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [shiftPressed, setShiftPressed] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   const fetchHighScores = async () => {
     const { data, error } = await supabase
@@ -132,13 +134,19 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 text-white p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto relative">
+        <GameAudio 
+          isPlaying={gameActive} 
+          isMuted={isMuted}
+          onToggleMute={() => setIsMuted(prev => !prev)}
+        />
+
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-2">
             <Keyboard className="w-8 h-8" />
-            Typing Balance
+            Typing Game
           </h1>
-          <p className="text-lg opacity-80">Find your rhythm, master your keystrokes</p>
+          <p className="text-lg opacity-80">Practice typing with different challenges!</p>
         </div>
 
         <LevelSelector
